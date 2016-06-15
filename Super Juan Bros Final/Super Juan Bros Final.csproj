@@ -90,6 +90,84 @@
   <ItemGroup>
     <None Include="Resources\mexicanRight.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\instructions.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\luigi Jump.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\luigiRight.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\luigiSliding.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\luigiStanding.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\marioSliding.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\jumpSound.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pauseSound.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\secondjumpSound.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\selectSound.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\brickSmashSound.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\coinSound.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dieSound.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fireballSound.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\highScoreSound.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\heartSound.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\characterSelect.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\difficultySelect.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hotSauze.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\settingsSelect.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\startSelect.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mexicanStandingR.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tacoTest2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\signFire.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\signPause.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\signTripleFire.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
