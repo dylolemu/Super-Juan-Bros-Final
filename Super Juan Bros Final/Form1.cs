@@ -35,20 +35,27 @@ namespace Super_Juan_Bros_Final
             brickHideBox.Hide();
             pause1.Hide();
             coin.Hide();
+            gameOverImage.Hide();
+            gameOverImage.Top = -200;
+            playerDead.Hide();
             fireBall.SendToBack();
             playerSlide.Size = new Size(99, 57);
-            ground.Location = new Point(0, this.Height - ground.Height+25);
+            ground.Location = new Point(0, this.Height - ground.Height + 25);
             cactus1.Location = new Point(15, ground.Top + 7 - cactus1.Height);
             cactus2.Location = new Point(25, ground.Top + 7 - cactus2.Height);
             player.Location = new Point(150, 582);
             instructions.Hide();
             medium = true;
             hotSauce.Top = question.Top;
-            label1.Text = "0000";
+            label1.Text = "0000000";
+            finalPoints.Text = "";
             labelFire.Text = "";
             labelBrickHide.Text = "";
             labelInvisibility.Text = "";
             Cursor.Hide();
+            Background bg = new Background();
+            bg.Show();
+            this.Focus();
         }
         Random randNum = new Random();
         bool gifnotloaded;
@@ -64,10 +71,8 @@ namespace Super_Juan_Bros_Final
         bool live2 = true;
         bool live3 = true;
         bool extraHeart;
-        bool settings,showInstructions;
-        bool difficulty;
+        bool settings, showInstructions, difficulty, character;
         bool luigi;
-        bool character;
         bool easy, medium, hard;
         bool pause;
         SoundPlayer jumpSound = new SoundPlayer(Properties.Resources.jumpSound);
@@ -79,45 +84,55 @@ namespace Super_Juan_Bros_Final
         SoundPlayer pauseSound = new SoundPlayer(Properties.Resources.pauseSound);
         SoundPlayer heartSound = new SoundPlayer(Properties.Resources.heartSound);
         SoundPlayer dieSound = new SoundPlayer(Properties.Resources.dieSound);
+        SoundPlayer playerHitSound = new SoundPlayer(Properties.Resources.playerHitSound);
+
 
         private void superJuanBros_KeyDown_1(object sender, KeyEventArgs e)
         {
             powerUps = randNum.Next(2, 100);
-
-            if (e.KeyCode == Keys.Escape)
+            if (gameOver == true)
             {
-                if (start == false)//if on main screen esc closes game
+                dieSound.Play();
+                gameOver = false;
+                restart = true;
+            }
+            if (restart == false || gameOver == false)
+            {
+                if (e.KeyCode == Keys.Escape)
                 {
-                    this.Close();
-                }
-                else if (pause == false)//if not on main screen it pauses the game
-                {
-                    pause1.Show();
-                    pause = true;
-                    speed = 0;
-                    if (player.Top == ground.Top - player.Height)
+                    if (start == false)//if on main screen esc closes game
                     {
+                        this.Close();
+                    }
+                    else if (pause == false)//if not on main screen it pauses the game
+                    {
+                        pause1.Show();
+                        pause = true;
+                        speed = 0;
+                        if (player.Top == ground.Top - player.Height)
+                        {
+                            if (luigi == false)
+                            {
+                                player.Image = Properties.Resources.mexicanStanding;
+                            }
+                            else
+                            {
+                                player.Image = Properties.Resources.luigiStanding;
+                            }
+                        }
+                    }
+                    else//if already paused it unpauses game
+                    {
+                        pause1.Hide();
+                        pause = false;
                         if (luigi == false)
                         {
-                            player.Image = Properties.Resources.mexicanStanding;
+                            player.Image = Properties.Resources.mexicanRight;
                         }
                         else
                         {
-                            player.Image = Properties.Resources.luigiStanding;
+                            player.Image = Properties.Resources.luigiRight;
                         }
-                    }
-                }
-                else//if already paused it unpauses game
-                {
-                    pause1.Hide();
-                    pause = false;
-                    if (luigi == false)
-                    {
-                        player.Image = Properties.Resources.mexicanRight;
-                    }
-                    else
-                    {
-                        player.Image = Properties.Resources.luigiRight;
                     }
                 }
             }
@@ -128,221 +143,229 @@ namespace Super_Juan_Bros_Final
                     this.Close();
                 }
             }
-            //start
 
-            if (e.KeyCode == Keys.Enter)
+            //start
+            if (start == false)
             {
-                if (selector.Top == 400)
+                player.Location = new Point(150, 582);
+                if (e.KeyCode == Keys.Enter)
                 {
-                    if (difficulty == false)
+                    if (selector.Top == 400)
                     {
-                        selector.Hide();
-                        labelFire.Text = "FIRE";
-                        start = true;
-                        lose = false;
-                        gameOver = false;
-                        selections.Hide();
-                        player.Location = new Point(150, 560);
+                        if (difficulty == false)
+                        {
+                            player.Show();
+                            selector.Hide();
+                            labelFire.Text = "FIRE";
+                            start = true;
+                            lose = false;
+                            restart = false;
+                            selections.Hide();
+                            player.Location = new Point(150, 560);
+                        }
+                        else
+                        {
+                            selectSound.Play();
+                            easy = true;
+                            medium = false;
+                            hard = false;
+                            difficulty = false;
+                            settings = true;
+                            selector.Top = 420;
+                        }
                     }
-                    else
+                    else if (selector.Top == 440)
                     {
                         selectSound.Play();
-                        easy = true;
-                        medium = false;
-                        hard = false;
-                        difficulty = false;
-                        settings = true;
-                        selector.Top = 420;
+                        if (difficulty == false)
+                        {
+                            settings = true;
+                        }
+                        else
+                        {
+                            easy = false;
+                            medium = true;
+                            hard = false;
+                            difficulty = false;
+                            settings = true;
+                            selector.Top = 420;
+                        }
                     }
-                }
-                else if (selector.Top == 440)
-                {
+                    else if (selector.Top == 480)
+                    {
                         selectSound.Play();
-                    if (difficulty == false)
-                    {
-                        settings = true;
+                        if (difficulty == false)
+                        {
+                            selections.Hide();
+                            instructions.Show();
+                            instructions.Size = new Size(1068, 657);
+                            instructions.Location = new Point(this.Width / 2 - instructions.Width / 2, this.Height / 2 - instructions.Height / 2 - 5);
+                            showInstructions = true;
+                        }
+                        else
+                        {
+                            easy = false;
+                            medium = false;
+                            hard = true;
+                            difficulty = false;
+                            settings = true;
+                            selector.Top = 420;
+                        }
                     }
-                    else
+                    else if (selector.Top == 420)
                     {
-                        easy = false;
-                        medium = true;
-                        hard = false;
-                        difficulty = false;
-                        settings = true;
-                        selector.Top = 420;
+                        selectSound.Play();
+                        if (settings == true)
+                        {
+                            difficulty = true;
+                            settings = false;
+                            selector.Top = 400;
+                        }
+                        else
+                        {
+                            settings = true;
+                            character = false;
+                            luigi = false;
+                        }
                     }
-                }
-                else if (selector.Top == 480)
-                {
-                    selectSound.Play();
-                    if (difficulty == false)
+                    else if (selector.Top == 460)
                     {
-                        selections.Hide();
-                        instructions.Show();
-                        instructions.Size = new Size(1068, 657);
-                        instructions.Location = new Point(this.Width / 2 - instructions.Width / 2, this.Height / 2 - instructions.Height / 2 - 5);
-                        showInstructions = true;
+                        selectSound.Play();
+                        if (character == true)
+                        {
+                            luigi = true;
+                            character = false;
+                            settings = true;
+                        }
+                        else
+                        {
+                            settings = false;
+                            character = true;
+                        }
                     }
-                    else
-                    {
-                        easy = false;
-                        medium = false;
-                        hard = true;
-                        difficulty = false;
-                        settings = true;
-                        selector.Top = 420;
-                    }
-                }
-                else if (selector.Top == 420)
-                {
-                    selectSound.Play();
-                    if (settings == true)
-                    {
-                        difficulty = true;
-                        settings = false;
-                        selector.Top = 400;
-                    }
-                    else
-                    {
-                        settings = true;
-                        character = false;
-                        luigi = false;
-                    }
-                }
-                else if (selector.Top == 460)
-                {
-                    selectSound.Play();
-                    if (character == true)
-                    {
-                        luigi = true;
-                        character = false;
-                        settings = true;
-                    }
-                    else
-                    {
-                        settings = false;
-                        character = true;
-                    }
-                }
-            }
-            if (character == true)
-             {
-                selector.Top = 420;
-                if (selector.Top < 460 && e.KeyCode == Keys.Down)
-                {
-                    selector.Top += 40;
-                }
-                if (selector.Top > 420 && e.KeyCode == Keys.Up)
-                {
-                    selector.Top -= 40;
-                }
-                if (selector.Top == 420)
-                {
-                    player.Image = Properties.Resources.mexicanStanding;
-                }
-                if (selector.Top == 460)
-                {
-                    player.Image = Properties.Resources.luigiStanding;
-                }
-            }
-            if (settings == false && character == false)
-            {
-                if (selector.Top < 480 && e.KeyCode == Keys.Down)
-                {
-                    selector.Top += 40;
-                }
-                if (selector.Top > 400 && e.KeyCode == Keys.Up)
-                {
-                    selector.Top -= 40;
-                }
-            }
-            if (settings == true)
-            {
-                selector.Top = 420;
-                if (selector.Top < 460 && e.KeyCode == Keys.Down)
-                {
-                    selector.Top += 40;
-                }
-                if (selector.Top > 420 && e.KeyCode == Keys.Up)
-                {
-                    selector.Top -= 40;
-                }
-                if(selector.Top == 460)
-                {
-                }
-            }
-            if (e.KeyCode == Keys.Back)
-            {
-                if (showInstructions == true)
-                {
-                    showInstructions = false;
-                    instructions.Hide();
-                    selector.Top = 400;
-                }
-                if (settings == true)
-                {
-                    settings = false;
-                    selector.Top = 400;
-                }
-                if (difficulty == true)
-                {
-                    settings = true;
-                    difficulty = false;
-                    selector.Top = 420;
                 }
                 if (character == true)
                 {
-                    settings = true;
-                    character = false;
                     selector.Top = 420;
+                    if (selector.Top < 460 && e.KeyCode == Keys.Down)
+                    {
+                        selector.Top += 40;
+                    }
+                    if (selector.Top > 420 && e.KeyCode == Keys.Up)
+                    {
+                        selector.Top -= 40;
+                    }
+                    if (selector.Top == 420)
+                    {
+                        player.Image = Properties.Resources.mexicanStanding;
+                    }
+                    if (selector.Top == 460)
+                    {
+                        player.Image = Properties.Resources.luigiStanding;
+                    }
+                }
+                if (settings == false && character == false)
+                {
+                    if (selector.Top < 480 && e.KeyCode == Keys.Down)
+                    {
+                        selector.Top += 40;
+                    }
+                    if (selector.Top > 400 && e.KeyCode == Keys.Up)
+                    {
+                        selector.Top -= 40;
+                    }
+                }
+                if (settings == true)
+                {
+                    selector.Top = 420;
+                    if (selector.Top < 460 && e.KeyCode == Keys.Down)
+                    {
+                        selector.Top += 40;
+                    }
+                    if (selector.Top > 420 && e.KeyCode == Keys.Up)
+                    {
+                        selector.Top -= 40;
+                    }
+                    if (selector.Top == 460)
+                    {
+                    }
+                }
+                if (e.KeyCode == Keys.Back)
+                {
+                    if (showInstructions == true)
+                    {
+                        showInstructions = false;
+                        instructions.Hide();
+                        selector.Top = 400;
+                    }
+                    if (settings == true)
+                    {
+                        settings = false;
+                        selector.Top = 400;
+                    }
+                    if (difficulty == true)
+                    {
+                        settings = true;
+                        difficulty = false;
+                        selector.Top = 420;
+                    }
+                    if (character == true)
+                    {
+                        settings = true;
+                        character = false;
+                        selector.Top = 420;
+                    }
                 }
             }
-            if (e.KeyCode == Keys.Down)
+            if (restart == false || gameOver == false)
             {
-                sliding = true;
-                if (luigi == false)
+                if (e.KeyCode == Keys.Down)
                 {
-                    playerSlide.Image = Properties.Resources.marioSliding;
-                }
-                else
-                {
-                    playerSlide.Image = Properties.Resources.luigiSliding;
-                }
-            }
-            if (e.KeyCode == Keys.Right && noFire == false)
-            {
-                fireBallSound.Play();
-                fire = true;
-                recharge = 0;
-                flameCharge.Size = new Size(0, 0);
-            }
-            if (jump != true)
-            {
-                if (e.KeyCode == Keys.Space)
-                {
-                    jumpSound.Play();
-                    jump = true;
-                    force = G;
+                    sliding = true;
                     if (luigi == false)
                     {
-                        player.Image = Properties.Resources.mexicanJump;
+                        playerSlide.Image = Properties.Resources.marioSliding;
                     }
                     else
                     {
-                        player.Image = Properties.Resources.luigiJump;
+                        playerSlide.Image = Properties.Resources.luigiSliding;
+                    }
+                }
+                if (e.KeyCode == Keys.Right && noFire == false)
+                {
+                    fireBallSound.Play();
+                    fire = true;
+                    recharge = 0;
+                    flameCharge.Size = new Size(0, 0);
+                }
+                if (jump != true)
+                {
+                    if (e.KeyCode == Keys.Space)
+                    {
+                        jumpSound.Play();
+                        jump = true;
+                        force = G;
+                        if (luigi == false)
+                        {
+                            player.Image = Properties.Resources.mexicanJump;
+                        }
+                        else
+                        {
+                            player.Image = Properties.Resources.luigiJump;
+                        }
+                    }
+                }
+                else if (doubleJump != true)
+                {
+                    if (e.KeyCode == Keys.Space)
+                    {
+                        doubleJumpSound.Play();
+                        doubleJump = true;
+                        force = G;
                     }
                 }
             }
-            else if (doubleJump != true)
-            {
-                if (e.KeyCode == Keys.Space)
-                {
-                    doubleJumpSound.Play();
-                    doubleJump = true;
-                    force = G;
-                }
-            }
-        } 
+        }
         private void superJuanBros_KeyUp_1(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Down)
@@ -365,9 +388,9 @@ namespace Super_Juan_Bros_Final
         int chanceValue;
         int powerUps;
         int score;
-        int[] locations = { 560, 497, 434, 371, 308, 245, 182, 119, 56};
+        int[] locations = { 560, 497, 434, 371, 308, 245, 182, 119, 56 };
         int speed = 10;
-        bool lose, gameOver;
+        bool lose, gameOver, restart;
 
         //powerUps
         bool invisible;
@@ -456,136 +479,193 @@ namespace Super_Juan_Bros_Final
                     {
                         if (live1 == true)
                         {
+                            playerHitSound.Play();
                             heart1.Hide();
                             live1 = false;
                             lose = false;
                             labelInvisibility.Text = "INVISIBILITY";
+                            invisible = true;
                         }
                         else if (live2 != false && live1 == false)
                         {
+                            playerHitSound.Play();
                             heart2.Hide();
                             live2 = false;
                             lose = false;
                             labelInvisibility.Text = "INVISIBILITY";
+                            invisible = true;
                         }
                         else if (live3 != false && live2 == false)
                         {
                             invisible = true;
                             speed = 0;
                             heart3.Hide();
-                            dieSound.Play();
                             if (player.Top == ground.Top - player.Height)
                             {
                                 gameOver = true;
+                                player.Hide();
+                                invisible = false;
                             }
                         }
-                        invisible = true;
                     }
+                    gameOverMethod();
+                    restartMethod();
 
-                    if (gameOver == true)
+
+                    label1.Text = points.ToString("0000000");
+                    points += 1;
+
+                    playerUps();
+
+                    brickMovement();
+                    brickRespawning();
+
+                    playerSlide.Top = player.Top + playerSlide.Height - 7;
+                    if (jump == true)
                     {
-                        selector.Show();
-                        start = false;
-                        lose = true;
-                        gameSign.Location = new Point(295, 103);
-                        selections.Show();
-                        player.Location = new Point(150, 582);
-                        speed = 0;
-                        brick.Location = new Point(199, 239);
-                        brick2.Location = new Point(256, 112);
-                        brick3.Location = new Point(295, 170);
-                        question1.Location = new Point(this.Width + 300, 56);
-                        brick4.Location = new Point(this.Width + 500, 560);
-                        cactus1.Location = new Point(15, -40);
-                        cactus2.Location = new Point(15, -40);
-                        brick.Hide();
-                        brick2.Hide();
-                        brick3.Hide();
-                        brick4.Hide();
-                        question.Hide();
-                        question1.Hide();
-                        cactus1.Hide();
-                        cactus2.Hide();
-                        invisible = false;
-                        live1 = true;
-                        live2 = true;
-                        live3 = true;
-                        heart1.Show();
-                        heart2.Show();
-                        heart3.Show();
-                        points = 0;
-                        label1.Text = "0";
-                        if (luigi == true)
+                        player.Top -= force;
+                        force -= 2;
+                    }
+                    else if (gifnotloaded == true)
+                    {
+                        if (luigi == false)
                         {
-                            player.Image = Properties.Resources.luigiStanding;
+                            player.Image = Properties.Resources.mexicanRight;
                         }
                         else
                         {
-                            player.Image = Properties.Resources.mexicanStanding;
+                            player.Image = Properties.Resources.luigiRight;
                         }
-
+                        gifnotloaded = false;
                     }
 
-                    if (start == true)
-                    {
-                        label1.Text = Convert.ToString(points);
-                        points += 1;
+                    borders(brick);
+                    questionBorders(question1);
+                    borders2(brick2);
+                    borders3(brick3);
+                    borders2(question);
+                    borders2(gameSign);
+                    borders4(brick4);
+                    borders4(cactus1);
+                    borders4(cactus2);
 
-                        playerUps();
+                    slideBorders(brick);
+                    slideBorders(brick2);
+                    slideBorders(brick3);
+                    slideBorders(brick4);
+                    fireContact(brick);
+                    fireContact(brick2);
+                    fireContact(brick3);
+                    fireContact(brick4);
+                    fireContact(question);
+                    fireContact(question1);
+                    fireContact(cactus1);
+                    fireContact(cactus2);
 
-                        brickMovement();
-                        brickRespawning();
+                    landingBrick();
+                    hidePowerUp(brick);
+                    hidePowerUp(brick2);
+                    hidePowerUp(brick3);
+                    hidePowerUp(brick4);
+                    hidePowerUp(cactus1);
+                    hidePowerUp(cactus2);
 
-                        playerSlide.Top = player.Top + playerSlide.Height - 7;
-                        if (jump == true)
-                        {
-                            player.Top -= force;
-                            force -= 2;
-                        }
-                        else if (gifnotloaded == true)
-                        {
-                            if (luigi == false)
-                            {
-                                player.Image = Properties.Resources.mexicanRight;
-                            }
-                            else
-                            {
-                                player.Image = Properties.Resources.luigiRight;
-                            }
-                            gifnotloaded = false;
-                        }
-
-                        borders(brick);
-                        borders2(brick2);
-                        borders3(brick3);
-                        borders2(question);
-                        borders2(gameSign);
-                        borders4(brick4);
-                        borders4(cactus1);
-                        borders4(cactus2);
-
-                        slideBorders(brick);
-                        slideBorders(brick2);
-                        slideBorders(brick3);
-                        slideBorders(brick4);
-                        fireContact(brick);
-                        fireContact(brick2);
-                        fireContact(brick3);
-                        fireContact(brick4);
-                        fireContact(question);
-                        fireContact(question1);
-                        fireContact(cactus1);
-                        fireContact(cactus2);
-
-                        landingBrick();
-                        hidePowerUp(brick);
-                        hidePowerUp(brick2);
-                        hidePowerUp(brick3);
-                        hidePowerUp(brick4);
-                        hidePowerUp(cactus1);
-                        hidePowerUp(cactus2);
-                    }
                 }
+            }
+        }
+        public void gameOverMethod()
+        {
+            if (gameOver == true)
+            {
+                pause = false;
+                tripleFire = false;
+                points -= 1;
+                speed = 0;
+                playerDead.Show();
+                brick.Hide();
+                brick2.Hide();
+                brick3.Hide();
+                brick4.Hide();
+                question.Hide();
+                question1.Hide();
+                cactus1.Hide();
+                cactus2.Hide();
+                fireBall.Hide();
+                fireBall.Top = -50;
+                player.Location = new Point(150, 582);
+                brick.Location = new Point(199, 239);
+                brick2.Location = new Point(256, 112);
+                brick3.Location = new Point(295, 170);
+                question1.Location = new Point(this.Width + 300, 56);
+                brick4.Location = new Point(this.Width + 500, 560);
+                cactus1.Location = new Point(15, -40);
+                cactus2.Location = new Point(15, -40);
+                if (luigi == false)
+                {
+                    playerDead.Image = Properties.Resources.marioDead;
+                }
+                else
+                {
+                    playerDead.Image = Properties.Resources.luigiDead;
+                }
+                gameOverImage.Show();
+                if (gameOverImage.Top <= 103)
+                {
+                    gameOverImage.Top += 5;
+                }
+                else
+                {
+                    finalPoints.Text = points.ToString("0000000");
+                }
+            }
+        }
+        public void restartMethod()
+        {
+            if (restart == true)
+            {
+                player.Show();
+                finalPoints.Text = "";
+                playerDead.Hide();
+                gameOverImage.Hide();
+                gameOverImage.Top = -200;
+                selector.Show();
+                start = false;
+                lose = true;
+                speed = 0;
+                selections.Show();
+                gameSign.Location = new Point(295, 103);
+                live1 = true;
+                live2 = true;
+                live3 = true;
+                heart1.Show();
+                heart2.Show();
+                heart3.Show();
+                points = 0;
+                label1.Text = "0000000";
+                if (luigi == true)
+                {
+                    player.Image = Properties.Resources.luigiStanding;
+                }
+                else
+                {
+                    player.Image = Properties.Resources.mexicanStanding;
+                }
+
+            }
+        }
+        public void questionBorders(PictureBox x)
+        {
+            if (invisible == false && player.Top < x.Top && player.Top + player.Height >= x.Top && player.Right > x.Left && player.Left < x.Right)
+            {
+                player.Top = x.Top - player.Height;
+                force = 0;
+                jump = false;
+                doubleJump = false;
+                onBrick = true;
+            }
+            if (invisible == false && player.Right > x.Left && player.Left < x.Right && player.Top - x.Bottom <= 20 && player.Top - x.Top > -20)
+            {
+                lose = true;
             }
         }
         public void borders(PictureBox x)
@@ -604,7 +684,7 @@ namespace Super_Juan_Bros_Final
             {
                 force = -6;
             }
-            if (invisible == false && sliding == false && player.Right >= x.Left-5 && player.Left < x.Right && player.Top < x.Bottom && player.Bottom > x.Top)
+            if (invisible == false && sliding == false && player.Right >= x.Left - 5 && player.Left < x.Right && player.Top < x.Bottom && player.Bottom > x.Top)
             {
                 lose = true;
             }
@@ -625,7 +705,7 @@ namespace Super_Juan_Bros_Final
                 force = -6;
             }
 
-            if (invisible == false && sliding == false && player.Right >= brick2.Left-5 && player.Left < brick2.Right && player.Top < brick2.Bottom && player.Bottom > brick2.Top)
+            if (invisible == false && sliding == false && player.Right >= brick2.Left - 5 && player.Left < brick2.Right && player.Top < brick2.Bottom && player.Bottom > brick2.Top)
             {
                 lose = true;
             }
@@ -636,9 +716,9 @@ namespace Super_Juan_Bros_Final
         }
         public void borders3(PictureBox x)
         {
-            if (invisible == false && player.Top < x.Top+12 && player.Top + player.Height >= x.Top+12 && player.Right > x.Left && player.Left < x.Right)
+            if (invisible == false && player.Top < x.Top + 12 && player.Top + player.Height >= x.Top + 12 && player.Right > x.Left && player.Left < x.Right)
             {
-                player.Top = x.Top - player.Height+12;
+                player.Top = x.Top - player.Height + 12;
                 force = 0;
                 jump = false;
                 doubleJump = false;
@@ -657,7 +737,7 @@ namespace Super_Juan_Bros_Final
         }
         public void borders4(PictureBox x)
         {
-            if (invisible == false && sliding == false && player.Bottom >= x.Top + 10 && player.Top + 10 <x.Bottom && player.Right >= x.Left && player.Left < x.Right)
+            if (invisible == false && sliding == false && player.Bottom >= x.Top + 10 && player.Top + 10 < x.Bottom && player.Right >= x.Left - 4 && player.Left < x.Right)
             {
                 lose = true;
             }
@@ -668,7 +748,7 @@ namespace Super_Juan_Bros_Final
         }
         public void slideBorders(PictureBox x)
         {
-            if (sliding == true && playerSlide.Top <= x.Bottom && playerSlide.Bottom >= x.Top+7 && playerSlide.Right >= x.Left && playerSlide.Left <= x.Right)
+            if (sliding == true && playerSlide.Top <= x.Bottom && playerSlide.Bottom >= x.Top + 7 && playerSlide.Right >= x.Left && playerSlide.Left <= x.Right)
             {
                 lose = true;
             }
@@ -833,7 +913,7 @@ namespace Super_Juan_Bros_Final
         public void playerUps()
         {
             //extra heart
-            if(extraHeart == true)
+            if (extraHeart == true)
             {
                 if (live1 == false && live2 != false)
                 {
@@ -948,7 +1028,7 @@ namespace Super_Juan_Bros_Final
                     hotSauce.Top -= 12;
                     hotSauce.Left = question.Left;
                 }
-            tripleFireTime += 1;
+                tripleFireTime += 1;
                 if (tripleFireTime > 300)
                 {
                     tripleFire = false;
@@ -966,7 +1046,7 @@ namespace Super_Juan_Bros_Final
             if (noFire == true)
             {
                 recharge += 1;
-                flameCharge.Size = new Size(148* recharge/200, 27);
+                flameCharge.Size = new Size(148 * recharge / 200, 27);
             }
             if (tripleFire == true)
             {
@@ -1029,16 +1109,16 @@ namespace Super_Juan_Bros_Final
                     coinUp = true;
                     coinSound.Play();
                 }
-                else if (powerUps > 88 && powerUps <=100)
+                else if (powerUps > 88 && powerUps <= 100)
                 {
                     brickHide = true;
                     labelBrickHide.Text = "BRICK HIDE";
                 }
-                else if (powerUps <= 80 && powerUps >60)
+                else if (powerUps <= 80 && powerUps > 60)
                 {
                     tripleFire = true;
                 }
-                else if (powerUps >80 && powerUps<=88)
+                else if (powerUps > 80 && powerUps <= 88)
                 {
                     heartSound.Play();
                     extraHeart = true;
@@ -1122,9 +1202,8 @@ namespace Super_Juan_Bros_Final
                     labelBrickHide.Text = "";
                 }
             }
-            else {brickHideTime = 0; }
+            else { brickHideTime = 0; }
         }
-
     }
 }
   

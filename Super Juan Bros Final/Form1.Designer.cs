@@ -67,6 +67,10 @@
             this.labelBrickHide = new System.Windows.Forms.Label();
             this.labelInvisibility = new System.Windows.Forms.Label();
             this.pause1 = new System.Windows.Forms.PictureBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.playerDead = new System.Windows.Forms.PictureBox();
+            this.gameOverImage = new System.Windows.Forms.PictureBox();
+            this.finalPoints = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.selections)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.instructions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.selector)).BeginInit();
@@ -99,6 +103,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hotSauce)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pause1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.playerDead)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gameOverImage)).BeginInit();
             this.SuspendLayout();
             // 
             // timer1
@@ -113,11 +119,11 @@
             this.label1.BackColor = System.Drawing.Color.Tan;
             this.label1.Font = new System.Drawing.Font("Segoe Print", 14F, System.Drawing.FontStyle.Bold);
             this.label1.ForeColor = System.Drawing.Color.Beige;
-            this.label1.Location = new System.Drawing.Point(43, 5);
+            this.label1.Location = new System.Drawing.Point(91, 4);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(71, 33);
+            this.label1.Size = new System.Drawing.Size(127, 33);
             this.label1.TabIndex = 12;
-            this.label1.Text = "label1";
+            this.label1.Text = "00000000";
             // 
             // selections
             // 
@@ -420,7 +426,7 @@
             this.pictureBox2.BackColor = System.Drawing.Color.Tan;
             this.pictureBox2.Location = new System.Drawing.Point(12, 4);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(134, 35);
+            this.pictureBox2.Size = new System.Drawing.Size(206, 35);
             this.pictureBox2.TabIndex = 31;
             this.pictureBox2.TabStop = false;
             // 
@@ -480,18 +486,67 @@
             this.pause1.TabIndex = 37;
             this.pause1.TabStop = false;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Tan;
+            this.label2.Font = new System.Drawing.Font("Segoe Print", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.Beige;
+            this.label2.Location = new System.Drawing.Point(16, 9);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(69, 26);
+            this.label2.TabIndex = 38;
+            this.label2.Text = "SCORE:";
+            // 
+            // playerDead
+            // 
+            this.playerDead.Image = ((System.Drawing.Image)(resources.GetObject("playerDead.Image")));
+            this.playerDead.Location = new System.Drawing.Point(150, 617);
+            this.playerDead.Name = "playerDead";
+            this.playerDead.Size = new System.Drawing.Size(117, 69);
+            this.playerDead.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.playerDead.TabIndex = 39;
+            this.playerDead.TabStop = false;
+            // 
+            // gameOverImage
+            // 
+            this.gameOverImage.Image = ((System.Drawing.Image)(resources.GetObject("gameOverImage.Image")));
+            this.gameOverImage.Location = new System.Drawing.Point(396, 103);
+            this.gameOverImage.Name = "gameOverImage";
+            this.gameOverImage.Size = new System.Drawing.Size(411, 303);
+            this.gameOverImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.gameOverImage.TabIndex = 40;
+            this.gameOverImage.TabStop = false;
+            // 
+            // finalPoints
+            // 
+            this.finalPoints.AutoSize = true;
+            this.finalPoints.BackColor = System.Drawing.Color.Beige;
+            this.finalPoints.Font = new System.Drawing.Font("Segoe Print", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.finalPoints.ForeColor = System.Drawing.Color.Black;
+            this.finalPoints.Location = new System.Drawing.Point(542, 354);
+            this.finalPoints.Name = "finalPoints";
+            this.finalPoints.Size = new System.Drawing.Size(180, 47);
+            this.finalPoints.TabIndex = 41;
+            this.finalPoints.Text = "00000000";
+            // 
             // superJuanBros
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Beige;
             this.ClientSize = new System.Drawing.Size(1234, 720);
+            this.Controls.Add(this.finalPoints);
+            this.Controls.Add(this.gameOverImage);
+            this.Controls.Add(this.playerDead);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.instructions);
             this.Controls.Add(this.pause1);
             this.Controls.Add(this.labelInvisibility);
             this.Controls.Add(this.labelBrickHide);
             this.Controls.Add(this.labelFire);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.selections);
             this.Controls.Add(this.selector);
             this.Controls.Add(this.question);
@@ -520,7 +575,6 @@
             this.Controls.Add(this.coin);
             this.Controls.Add(this.brick3);
             this.Controls.Add(this.gameSign);
-            this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.hotSauce);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "superJuanBros";
@@ -560,6 +614,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.hotSauce)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pause1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.playerDead)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gameOverImage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -604,6 +660,10 @@
         private System.Windows.Forms.Label labelBrickHide;
         private System.Windows.Forms.Label labelInvisibility;
         private System.Windows.Forms.PictureBox pause1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.PictureBox playerDead;
+        private System.Windows.Forms.PictureBox gameOverImage;
+        private System.Windows.Forms.Label finalPoints;
     }
 }
 

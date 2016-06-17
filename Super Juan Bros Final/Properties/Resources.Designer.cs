@@ -166,6 +166,16 @@ namespace Super_Juan_Bros_Final.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap luigiDead {
+            get {
+                object obj = ResourceManager.GetObject("luigiDead", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap luigiJump {
             get {
                 object obj = ResourceManager.GetObject("luigiJump", resourceCulture);
@@ -199,6 +209,16 @@ namespace Super_Juan_Bros_Final.Properties {
         internal static System.Drawing.Bitmap luigiStanding {
             get {
                 object obj = ResourceManager.GetObject("luigiStanding", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap marioDead {
+            get {
+                object obj = ResourceManager.GetObject("marioDead", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -249,6 +269,15 @@ namespace Super_Juan_Bros_Final.Properties {
         internal static System.IO.UnmanagedMemoryStream pauseSound {
             get {
                 return ResourceManager.GetStream("pauseSound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream playerHitSound {
+            get {
+                return ResourceManager.GetStream("playerHitSound", resourceCulture);
             }
         }
         
