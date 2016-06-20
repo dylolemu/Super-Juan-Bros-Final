@@ -16,8 +16,7 @@ namespace Super_Juan_Bros_Final
         {
             InitializeComponent();
             this.DoubleBuffered = true;
-            question1.Location = new Point(this.Width + 300, 56);
-            brick4.Location = new Point(this.Width + 500, 560);
+            //hides any unwanted pictureBoxes
             brick3.Hide();
             brick2.Hide();
             brick.Hide();
@@ -35,46 +34,54 @@ namespace Super_Juan_Bros_Final
             brickHideBox.Hide();
             pause1.Hide();
             coin.Hide();
+            instructions.Hide();
             gameOverImage.Hide();
-            gameOverImage.Top = -200;
             playerDead.Hide();
             fireBall.SendToBack();
+            //sets starting locations for desired pictureBoxes
+            gameOverImage.Top = -200;
+            question1.Location = new Point(this.Width + 300, 56);
+            brick4.Location = new Point(this.Width + 500, 560);
             playerSlide.Size = new Size(99, 57);
             ground.Location = new Point(0, this.Height - ground.Height + 25);
             cactus1.Location = new Point(15, ground.Top + 7 - cactus1.Height);
             cactus2.Location = new Point(25, ground.Top + 7 - cactus2.Height);
             player.Location = new Point(150, 582);
-            instructions.Hide();
-            medium = true;
             hotSauce.Top = question.Top;
-            label1.Text = "0000000";
+            label1.Text = "0000000";//sets starting score to 0
+            //clears text in all labels
             finalPoints.Text = "";
             labelFire.Text = "";
             labelBrickHide.Text = "";
             labelInvisibility.Text = "";
-            Cursor.Hide();
+            medium = true;//sets starting difficulty to medium
+            Cursor.Hide();//hides cursor
             Background bg = new Background();
             bg.Show();
             this.Focus();
         }
         Random randNum = new Random();
-        bool gifnotloaded;
-        bool jump, doubleJump, sliding;
+        bool gifnotloaded;//reloads the gif so it keeps running
+        bool jump, doubleJump, sliding;//different movements player can perform
         int force;
-        int G = 33;
-        bool onBrick;
-        bool start;
-        bool fire;
-        bool noFire;
+        int G = 33;//force of gravity on player
+        bool onBrick;//if player lands on a brick
+        bool start;//game has started
+        bool fire;//fire button has been pressed
+        bool noFire;//can not fire  until recharged
         int recharge;
+        //player lives
         bool live1 = true;
         bool live2 = true;
         bool live3 = true;
         bool extraHeart;
-        bool settings, showInstructions, difficulty, character;
-        bool luigi;
-        bool easy, medium, hard;
+        bool settings, showInstructions, difficulty, character;//options in start menu
+        bool luigi;//character 
+        bool easy, medium, hard;//difficulties
         bool pause;
+        bool countDown;
+
+        //sounds used throuhout game
         SoundPlayer jumpSound = new SoundPlayer(Properties.Resources.jumpSound);
         SoundPlayer doubleJumpSound = new SoundPlayer(Properties.Resources.jumpSound);
         SoundPlayer fireBallSound = new SoundPlayer(Properties.Resources.fireballSound);
@@ -89,13 +96,9 @@ namespace Super_Juan_Bros_Final
 
         private void superJuanBros_KeyDown_1(object sender, KeyEventArgs e)
         {
-            powerUps = randNum.Next(2, 100);
-            if (gameOver == true)
-            {
-                dieSound.Play();
-                gameOver = false;
-                restart = true;
-            }
+            powerUps = randNum.Next(2, 100);//randon number for powerUps inside box
+
+          
             if (restart == false || gameOver == false)
             {
                 if (e.KeyCode == Keys.Escape)
@@ -106,12 +109,13 @@ namespace Super_Juan_Bros_Final
                     }
                     else if (pause == false)//if not on main screen it pauses the game
                     {
+                        pauseSound.Play();
                         pause1.Show();
                         pause = true;
-                        speed = 0;
-                        if (player.Top == ground.Top - player.Height)
+                        speed = 0;//sets speed to 0 so nothing will move
+                        if (player.Top == ground.Top - player.Height)//if player is on the ground
                         {
-                            if (luigi == false)
+                            if (luigi == false)//sets the correct image depending on what character the player chose
                             {
                                 player.Image = Properties.Resources.mexicanStanding;
                             }
@@ -123,9 +127,10 @@ namespace Super_Juan_Bros_Final
                     }
                     else//if already paused it unpauses game
                     {
+                        pauseSound.Play();
                         pause1.Hide();
                         pause = false;
-                        if (luigi == false)
+                        if (luigi == false)//sets the correct image depending on what character the player chose
                         {
                             player.Image = Properties.Resources.mexicanRight;
                         }
@@ -138,32 +143,33 @@ namespace Super_Juan_Bros_Final
             }
             if (pause == true)
             {
-                if (e.KeyCode == Keys.Q)
+                //closes the form
+                if (e.KeyCode == Keys.M)
                 {
                     this.Close();
                 }
             }
 
-            //start
+           
+            //play game has not been clicked
             if (start == false)
             {
-                player.Location = new Point(150, 582);
-                if (e.KeyCode == Keys.Enter)
+                player.Location = new Point(150, 582);//sets starting location for player
+
+                //options at start menu
+                if (e.KeyCode == Keys.Space)
                 {
                     if (selector.Top == 400)
                     {
-                        if (difficulty == false)
+                        if (difficulty == false)//if not on difficulties game begins
                         {
                             player.Show();
                             selector.Hide();
                             labelFire.Text = "FIRE";
-                            start = true;
-                            lose = false;
-                            restart = false;
-                            selections.Hide();
-                            player.Location = new Point(150, 560);
+                            countDown = true;
+                           
                         }
-                        else
+                        else//easy difficulty is chosen
                         {
                             selectSound.Play();
                             easy = true;
@@ -179,12 +185,12 @@ namespace Super_Juan_Bros_Final
                         selectSound.Play();
                         if (difficulty == false)
                         {
-                            settings = true;
+                            settings = true;//setting are clicked
                         }
                         else
                         {
                             easy = false;
-                            medium = true;
+                            medium = true;//medium difficulty is chosen
                             hard = false;
                             difficulty = false;
                             settings = true;
@@ -194,10 +200,10 @@ namespace Super_Juan_Bros_Final
                     else if (selector.Top == 480)
                     {
                         selectSound.Play();
-                        if (difficulty == false)
+                        if (difficulty == false)//instructions are clicked
                         {
                             selections.Hide();
-                            instructions.Show();
+                            instructions.Show();//shows instructions
                             instructions.Size = new Size(1068, 657);
                             instructions.Location = new Point(this.Width / 2 - instructions.Width / 2, this.Height / 2 - instructions.Height / 2 - 5);
                             showInstructions = true;
@@ -206,7 +212,7 @@ namespace Super_Juan_Bros_Final
                         {
                             easy = false;
                             medium = false;
-                            hard = true;
+                            hard = true;//hard difficulty is chosen
                             difficulty = false;
                             settings = true;
                             selector.Top = 420;
@@ -217,7 +223,7 @@ namespace Super_Juan_Bros_Final
                         selectSound.Play();
                         if (settings == true)
                         {
-                            difficulty = true;
+                            difficulty = true;//difficulties are chosen
                             settings = false;
                             selector.Top = 400;
                         }
@@ -225,7 +231,7 @@ namespace Super_Juan_Bros_Final
                         {
                             settings = true;
                             character = false;
-                            luigi = false;
+                            luigi = false;//character juan is chosen
                         }
                     }
                     else if (selector.Top == 460)
@@ -233,18 +239,18 @@ namespace Super_Juan_Bros_Final
                         selectSound.Play();
                         if (character == true)
                         {
-                            luigi = true;
+                            luigi = true;//charcater luigi is chosen
                             character = false;
                             settings = true;
                         }
                         else
                         {
                             settings = false;
-                            character = true;
+                            character = true;//character tab is chosen
                         }
                     }
                 }
-                if (character == true)
+                if (character == true)//selector movement while in character tab
                 {
                     selector.Top = 420;
                     if (selector.Top < 460 && e.KeyCode == Keys.Down)
@@ -257,14 +263,14 @@ namespace Super_Juan_Bros_Final
                     }
                     if (selector.Top == 420)
                     {
-                        player.Image = Properties.Resources.mexicanStanding;
+                        player.Image = Properties.Resources.mexicanStanding;//sets correct character
                     }
                     if (selector.Top == 460)
                     {
-                        player.Image = Properties.Resources.luigiStanding;
+                        player.Image = Properties.Resources.luigiStanding;//sets correct character
                     }
                 }
-                if (settings == false && character == false)
+                if (settings == false && character == false)//selector movement while in difficulty tab
                 {
                     if (selector.Top < 480 && e.KeyCode == Keys.Down)
                     {
@@ -275,7 +281,7 @@ namespace Super_Juan_Bros_Final
                         selector.Top -= 40;
                     }
                 }
-                if (settings == true)
+                if (settings == true)//selector movement while in settings tab
                 {
                     selector.Top = 420;
                     if (selector.Top < 460 && e.KeyCode == Keys.Down)
@@ -290,7 +296,7 @@ namespace Super_Juan_Bros_Final
                     {
                     }
                 }
-                if (e.KeyCode == Keys.Back)
+                if (e.KeyCode == Keys.M)//goes back to the correct selection depending on which tab you are in
                 {
                     if (showInstructions == true)
                     {
@@ -317,12 +323,12 @@ namespace Super_Juan_Bros_Final
                     }
                 }
             }
-            if (restart == false || gameOver == false)
+            if (restart == false && start != false && pause == false || gameOver == false && start != false && pause == false)//keys only work while game has started
             {
-                if (e.KeyCode == Keys.Down)
+                if (e.KeyCode == Keys.B)
                 {
-                    sliding = true;
-                    if (luigi == false)
+                    sliding = true;//player slides
+                    if (luigi == false)//sets correct player image
                     {
                         playerSlide.Image = Properties.Resources.marioSliding;
                     }
@@ -331,21 +337,21 @@ namespace Super_Juan_Bros_Final
                         playerSlide.Image = Properties.Resources.luigiSliding;
                     }
                 }
-                if (e.KeyCode == Keys.Right && noFire == false)
+                if (e.KeyCode == Keys.M && noFire == false)//if fireBall recharge is full
                 {
                     fireBallSound.Play();
-                    fire = true;
+                    fire = true;//fireBall is launched
                     recharge = 0;
                     flameCharge.Size = new Size(0, 0);
                 }
-                if (jump != true)
+                if (jump != true)// if player is not jumping
                 {
                     if (e.KeyCode == Keys.Space)
                     {
                         jumpSound.Play();
-                        jump = true;
-                        force = G;
-                        if (luigi == false)
+                        jump = true;//player jumps
+                        force = G;//force of gravity is set
+                        if (luigi == false)//sets correct player image
                         {
                             player.Image = Properties.Resources.mexicanJump;
                         }
@@ -355,12 +361,12 @@ namespace Super_Juan_Bros_Final
                         }
                     }
                 }
-                else if (doubleJump != true)
+                else if (doubleJump != true)//if player has not double jumped
                 {
                     if (e.KeyCode == Keys.Space)
                     {
                         doubleJumpSound.Play();
-                        doubleJump = true;
+                        doubleJump = true;//player double jumps
                         force = G;
                     }
                 }
@@ -368,7 +374,7 @@ namespace Super_Juan_Bros_Final
         }
         private void superJuanBros_KeyUp_1(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Down)
+            if (e.KeyCode == Keys.B)//once key is release player no longer slides
             {
                 sliding = false;
                 gifnotloaded = true;
@@ -377,22 +383,18 @@ namespace Super_Juan_Bros_Final
             }
             if (e.KeyCode == Keys.Space)
             {
-                gifnotloaded = true;
-            }
-            if (e.KeyCode == Keys.Enter)
-            {
-                gifnotloaded = true;
+                gifnotloaded = true;//resets gif so it repeats
             }
         }
         int xValue;
         int chanceValue;
-        int powerUps;
         int score;
-        int[] locations = { 560, 497, 434, 371, 308, 245, 182, 119, 56 };
+        int[] locations = { 560, 497, 434, 371, 308, 245, 182, 119, 56 };//list of random set locations for bricks to reappear 
         int speed = 10;
         bool lose, gameOver, restart;
+        int powerUps;
 
-        //powerUps
+        //all available powerUps
         bool invisible;
         bool tripleFire;
         bool coinUp;
@@ -402,8 +404,27 @@ namespace Super_Juan_Bros_Final
         int x = 2500;
         private void timer1_Tick(object sender, EventArgs e)
         {
+            if (countDown == true)//after game has been started it waits a certain amount of time
+            {
+                for (int i = 1; i <= 3; i++)
+                {
+                    if (i == 3)
+                    {
+                        start = true;//game is started
+                        lose = false;//lives are reset
+                        restart = false;
+                        selections.Hide();
+                        player.Location = new Point(150, 560);//new location for player
+                        countDown = false;//countdown is done
+                    }
+                    Refresh();
+                }
+            }
+
             if (pause != true)
             {
+                //selections at main menu
+                //changes pictureBox image, size and location
                 if (settings == true)
                 {
                     selections.Image = Properties.Resources.settingsSelect;
@@ -433,31 +454,31 @@ namespace Super_Juan_Bros_Final
                 if (start == true)
                 {
                     chanceValue = randNum.Next(1, 3);
-                    if (hard == true)
+                    if (hard == true)//if hard difficulty is chosen
                     {
-                        xValue = randNum.Next(this.Width, x);
+                        xValue = randNum.Next(this.Width, x);//respawns bricks closer together
                         if (x >= 1300)
                         {
                             x = 1800 - points / 70;
                         }
                         else { x = 1300; }
 
-                        if (speed <= 14)
+                        if (speed <= 14)//increases speed according to score
                         {
                             speed = 12 + points / 1000;
                         }
                         else { speed = 14; }
                     }
-                    else if (medium == true)
+                    else if (medium == true)//medium difficulty
                     {
                         xValue = randNum.Next(this.Width, x);
-                        if (x >= 1800)
+                        if (x >= 1800)//respawns bricks closer together
                         {
                             x = 2500 - points / 60;
                         }
                         else { x = 1800; }
 
-                        if (speed <= 13)
+                        if (speed <= 13)//increases speed according to score
                         {
                             speed = 10 + points / 1500;
                         }
@@ -466,27 +487,27 @@ namespace Super_Juan_Bros_Final
                     else if (easy == true)
                     {
                         xValue = randNum.Next(this.Width, 2800);
-                        brick3.Hide();
+                        brick3.Hide();//hides one of the bricks so it is never shown
                         brick3.Top = this.Height;
-                        if (speed <= 13)
+                        if (speed <= 13)//increases speed according to score
                         {
                             speed = 10 + points / 1500;
                         }
                         else { speed = 13; }
                     }
 
-                    if (lose == true)
+                    if (lose == true)//if player loses a life
                     {
-                        if (live1 == true)
+                        if (live1 == true)//first life
                         {
                             playerHitSound.Play();
                             heart1.Hide();
                             live1 = false;
                             lose = false;
                             labelInvisibility.Text = "INVISIBILITY";
-                            invisible = true;
+                            invisible = true;//character is invisble 
                         }
-                        else if (live2 != false && live1 == false)
+                        else if (live2 != false && live1 == false)//second life
                         {
                             playerHitSound.Play();
                             heart2.Hide();
@@ -495,12 +516,12 @@ namespace Super_Juan_Bros_Final
                             labelInvisibility.Text = "INVISIBILITY";
                             invisible = true;
                         }
-                        else if (live3 != false && live2 == false)
+                        else if (live3 != false && live2 == false)//third and last life
                         {
                             invisible = true;
                             speed = 0;
                             heart3.Hide();
-                            if (player.Top == ground.Top - player.Height)
+                            if (player.Top == ground.Top - player.Height)//if player is on the ground, Game Over
                             {
                                 gameOver = true;
                                 player.Hide();
@@ -510,23 +531,23 @@ namespace Super_Juan_Bros_Final
                     }
                     gameOverMethod();
                     restartMethod();
-
+                   
 
                     label1.Text = points.ToString("0000000");
-                    points += 1;
+                    points += 1;//score increases by one each 0.25 seconds
 
                     playerUps();
 
                     brickMovement();
                     brickRespawning();
 
-                    playerSlide.Top = player.Top + playerSlide.Height - 7;
+                    playerSlide.Top = player.Top + playerSlide.Height - 7;//location for when player is sliding
                     if (jump == true)
                     {
-                        player.Top -= force;
+                        player.Top -= force;//player decreases due to gravity
                         force -= 2;
                     }
-                    else if (gifnotloaded == true)
+                    else if (gifnotloaded == true)//resets gif so it keeps repeating
                     {
                         if (luigi == false)
                         {
@@ -553,6 +574,9 @@ namespace Super_Juan_Bros_Final
                     slideBorders(brick2);
                     slideBorders(brick3);
                     slideBorders(brick4);
+                    slideBorders(cactus1);
+                    slideBorders(cactus2);
+
                     fireContact(brick);
                     fireContact(brick2);
                     fireContact(brick3);
@@ -573,15 +597,19 @@ namespace Super_Juan_Bros_Final
                 }
             }
         }
+        /// <summary>
+        /// sets what occurs when all lives are lost
+        /// </summary>
         public void gameOverMethod()
         {
-            if (gameOver == true)
+            if (gameOver == true)//all lives are lost
             {
                 pause = false;
                 tripleFire = false;
-                points -= 1;
-                speed = 0;
-                playerDead.Show();
+                points -= 1;//score does not change
+                speed = 0;//no bricks are moving
+                playerDead.Show();//shows player dead
+                //hides the bricks
                 brick.Hide();
                 brick2.Hide();
                 brick3.Hide();
@@ -592,6 +620,7 @@ namespace Super_Juan_Bros_Final
                 cactus2.Hide();
                 fireBall.Hide();
                 fireBall.Top = -50;
+                //sets desired locations for pictureBoxes
                 player.Location = new Point(150, 582);
                 brick.Location = new Point(199, 239);
                 brick2.Location = new Point(256, 112);
@@ -600,7 +629,7 @@ namespace Super_Juan_Bros_Final
                 brick4.Location = new Point(this.Width + 500, 560);
                 cactus1.Location = new Point(15, -40);
                 cactus2.Location = new Point(15, -40);
-                if (luigi == false)
+                if (luigi == false)//shows correct character dead
                 {
                     playerDead.Image = Properties.Resources.marioDead;
                 }
@@ -609,20 +638,39 @@ namespace Super_Juan_Bros_Final
                     playerDead.Image = Properties.Resources.luigiDead;
                 }
                 gameOverImage.Show();
-                if (gameOverImage.Top <= 103)
+                if (gameOverImage.Top == -200)
+                {
+                    dieSound.Play();
+                }
+                if (gameOverImage.Top <= 103)//gameOver sign flies down from above
                 {
                     gameOverImage.Top += 5;
                 }
                 else
                 {
-                    finalPoints.Text = points.ToString("0000000");
+                    finalPoints.Text = points.ToString("0000000");//shows score
+
+                    for (int i = 1; i <= 80; i++)//waits a certain amount of time until game is automatically restarted
+                    {
+                        if (i == 80)
+                        {
+                            gameOver = false;
+                            restart = true;//allows you to restart a new game
+                        }
+                        Refresh();
+                    }
+
                 }
             }
         }
+        /// <summary>
+        /// sets what occurs after player lost and game is reset
+        /// </summary>
         public void restartMethod()
         {
-            if (restart == true)
+            if (restart == true)//if gameOver it restart
             {
+                //resets all varialble and pictureBox locations
                 player.Show();
                 finalPoints.Text = "";
                 playerDead.Hide();
@@ -634,6 +682,7 @@ namespace Super_Juan_Bros_Final
                 speed = 0;
                 selections.Show();
                 gameSign.Location = new Point(295, 103);
+                //all lives are reset
                 live1 = true;
                 live2 = true;
                 live3 = true;
@@ -653,6 +702,10 @@ namespace Super_Juan_Bros_Final
 
             }
         }
+        /// <summary>
+        /// sets borders for the question mark box
+        /// </summary>
+        /// <param name="x">question mark pictureBox</param>
         public void questionBorders(PictureBox x)
         {
             if (invisible == false && player.Top < x.Top && player.Top + player.Height >= x.Top && player.Right > x.Left && player.Left < x.Right)
@@ -663,11 +716,16 @@ namespace Super_Juan_Bros_Final
                 doubleJump = false;
                 onBrick = true;
             }
+            //if bottom of brick is hit player loses a life
             if (invisible == false && player.Right > x.Left && player.Left < x.Right && player.Top - x.Bottom <= 20 && player.Top - x.Top > -20)
             {
                 lose = true;
             }
         }
+        /// <summary>
+        /// sets borders for brick1
+        /// </summary>
+        /// <param name="x">brick1 pictureBox</param>
         public void borders(PictureBox x)
         {
             if (invisible == false && player.Top < x.Top && player.Top + player.Height >= x.Top && player.Right > x.Left && player.Left < x.Right)
@@ -678,17 +736,23 @@ namespace Super_Juan_Bros_Final
                 doubleJump = false;
                 onBrick = true;
             }
-            else { onBrick = false; }
+            else { onBrick = false; }//charcater is not on the brick
 
+            // if bottom of brick is hit player flies down
             if (invisible == false && player.Right > x.Left && player.Left < x.Right && player.Top - x.Bottom <= 20 && player.Top - x.Top > -20)
             {
                 force = -6;
             }
+            //if spike is hit player loses a life
             if (invisible == false && sliding == false && player.Right >= x.Left - 5 && player.Left < x.Right && player.Top < x.Bottom && player.Bottom > x.Top)
             {
                 lose = true;
             }
         }
+        /// <summary>
+        /// sets borders for brick2 and question mark box
+        /// </summary>
+        /// <param name="x">brick2 and question mark box</param>
         public void borders2(PictureBox x)
         {
             if (invisible == false && player.Top < x.Top && player.Top + player.Height >= x.Top && player.Right > x.Left && player.Left < x.Right)
@@ -709,11 +773,16 @@ namespace Super_Juan_Bros_Final
             {
                 lose = true;
             }
+            //game at start moves out of screen once game begins
             if (gameSign.Right > 0)
             {
                 gameSign.Left -= 4;
             }
         }
+        /// <summary>
+        /// sets borders for brick3
+        /// </summary>
+        /// <param name="x">brick3</param>
         public void borders3(PictureBox x)
         {
             if (invisible == false && player.Top < x.Top + 12 && player.Top + player.Height >= x.Top + 12 && player.Right > x.Left && player.Left < x.Right)
@@ -724,19 +793,29 @@ namespace Super_Juan_Bros_Final
                 doubleJump = false;
                 onBrick = true;
             }
-
             if (invisible == false && player.Right > x.Left && player.Left < x.Right && player.Top - x.Bottom <= 15 && player.Top - x.Top > -15)
             {
                 force = -6;
             }
 
+            // if player lands on brick on top he loses a life
             if (invisible == false && sliding == false && player.Top < x.Top && player.Top + player.Height >= x.Top + 12 && player.Right >= brick3.Left && player.Left <= brick3.Right - 90)
             {
                 lose = true;
             }
+            //if player stands up while underneath the brick
+            if (invisible == false && sliding == false && player.Top <= brick3.Top+25 && player.Bottom >= brick3.Bottom && player.Right >= brick3.Left && player.Left <= brick3.Right)
+            {
+                lose = true;
+            }
         }
+        /// <summary>
+        /// sets borders for brick4
+        /// </summary>
+        /// <param name="x">brick4</param>
         public void borders4(PictureBox x)
         {
+            // if top of brick is touched player loses a life
             if (invisible == false && sliding == false && player.Bottom >= x.Top + 10 && player.Top + 10 < x.Bottom && player.Right >= x.Left - 4 && player.Left < x.Right)
             {
                 lose = true;
@@ -746,6 +825,10 @@ namespace Super_Juan_Bros_Final
                 force = -6;
             }
         }
+        /// <summary>
+        /// if player slides and hits any pictureBox spike he loses a life
+        /// </summary>
+        /// <param name="x">any pictureBox containing spikes</param>
         public void slideBorders(PictureBox x)
         {
             if (sliding == true && playerSlide.Top <= x.Bottom && playerSlide.Bottom >= x.Top + 7 && playerSlide.Right >= x.Left && playerSlide.Left <= x.Right)
@@ -753,8 +836,13 @@ namespace Super_Juan_Bros_Final
                 lose = true;
             }
         }
+        /// <summary>
+        /// sets what occurs when a fireBall touches any pictureBox
+        /// </summary>
+        /// <param name="x">all pictureBoxes such as the bricks</param>
         public void fireContact(PictureBox x)
         {
+            //if brick is hit it dissapears
             if (fire == true && fireBall.Top <= x.Bottom && fireBall.Bottom >= x.Top && fireBall.Right >= x.Left && fireBall.Left <= x.Right)
             {
                 brickHitSound.Play();
@@ -776,19 +864,23 @@ namespace Super_Juan_Bros_Final
                     x.Top = this.Height;
                 }
             }
+            //once pictureBox is past the left side of screen it is shown
             if (x.Left >= this.Width)
             {
                 x.Show();
             }
         }
+        /// <summary>
+        /// sets what occurs when the pictureBoxes are passed the left side of screen
+        /// </summary>
         public void brickRespawning()
         {
             if (ground.Right <= this.Width)
             {
                 ground.Left = -5;
             }
-
-            if (score < 2)
+            //once brick leaves screen it randomly respawns at one of the 8 specified locations
+            if (score < 2)//ensures none of the bricks overlap eachother
             {
                 if (brick2.Right <= 0)
                 {
@@ -910,11 +1002,15 @@ namespace Super_Juan_Bros_Final
                 }
             }
         }
+        /// <summary>
+        /// sets what occurs when a powerUp question box is hit
+        /// </summary>
         public void playerUps()
         {
-            //extra heart
+            //extra heart powerUp
             if (extraHeart == true)
             {
+                //adds one life if necessary
                 if (live1 == false && live2 != false)
                 {
                     heart1.Show();
@@ -928,25 +1024,25 @@ namespace Super_Juan_Bros_Final
                 }
                 extraHeart = false;
             }
-            //coin movement
+            //coin movement when box is hit
             if (coinUp == true)
             {
                 coin.Show();
                 coin.Left = question.Left;
                 coin.Top -= 12;
-                if (question.Top - coin.Top >= 80)
+                if (question.Top - coin.Top >= 80)//dissapears once it gets too high
                 {
                     coin.Hide();
                     coinUp = false;
                 }
             }
             else
-            {
+            {//resets itself once hidden
                 coin.Top = question.Top;
                 coin.Left = question.Left;
             }
 
-            //ivisibility timer     
+            //ivisibility timer for when life is lost    
             if (invisible == true)
             {
                 invisibleCharge.Show();
@@ -957,59 +1053,52 @@ namespace Super_Juan_Bros_Final
                 {
                     labelInvisibility.Text = "";
                 }
-                if (sliding == true)
+                if (sliding == false)
                 {
-                    playerSlide.Show();
-                }
-                if (invisibleTime < 10)
-                {
-                    player.Hide();
-                    playerSlide.Hide();
-                    sliding = false;
-                }
-                if (invisibleTime >= 10 && invisibleTime < 20)
-                {
-                    player.Show();
-                    playerSlide.Hide();
-                    sliding = false;
-                }
-                if (invisibleTime >= 20 && invisibleTime < 30)
-                {
-                    playerSlide.Hide();
-                    player.Hide();
-                    sliding = false;
-                }
-                if (invisibleTime >= 30 && invisibleTime < 40)
-                {
-                    player.Show();
-                    playerSlide.Hide();
-                    sliding = false;
-                }
-                if (invisibleTime >= 40 && invisibleTime < 50)
-                {
-                    player.Hide();
-                    playerSlide.Hide();
-                    sliding = false;
-                }
-                if (invisibleTime >= 50 && invisibleTime < 60)
-                {
-                    player.Show();
-                    playerSlide.Hide();
-                    sliding = false;
-                }
-                if (invisibleTime >= 60 && invisibleTime < 70)
-                {
-                    player.Hide();
-                    playerSlide.Hide();
-                    sliding = false;
-                }
+                    //makes player blink after a life is lost
+                    if (invisibleTime < 10)
+                    {
+                        player.Hide();
+                        sliding = false;
+                    }
+                    if (invisibleTime >= 10 && invisibleTime < 20)
+                    {
+                        player.Show();
+                        sliding = false;
+                    }
+                    if (invisibleTime >= 20 && invisibleTime < 30)
+                    {
+                        player.Hide();
+                        sliding = false;
+                    }
+                    if (invisibleTime >= 30 && invisibleTime < 40)
+                    {
+                        player.Show();
+                        sliding = false;
+                    }
+                    if (invisibleTime >= 40 && invisibleTime < 50)
+                    {
+                        player.Hide();
+                        sliding = false;
+                    }
+                    if (invisibleTime >= 50 && invisibleTime < 60)
+                    {
+                        player.Show();
+                        sliding = false;
+                    }
+                    if (invisibleTime >= 60 && invisibleTime < 70)
+                    {
+                        player.Hide();
+                        sliding = false;
+                    }
 
-                if (invisibleTime > 70)
-                {
-                    player.Show();
-                    invisible = false;
-                    invisibleCharge.Hide();
-                    invisibleChargeBack.Hide();
+                    if (invisibleTime > 70)
+                    {
+                        player.Show();
+                        invisible = false;
+                        invisibleCharge.Hide();
+                        invisibleChargeBack.Hide();
+                    }
                 }
             }
             else { invisibleTime = 0; }
@@ -1017,6 +1106,7 @@ namespace Super_Juan_Bros_Final
             //triplefire timer     
             if (tripleFire == true)
             {
+                //movement for hotsauce 
                 if (question.Top - hotSauce.Top >= 100)
                 {
                     hotSauce.Hide();
@@ -1028,6 +1118,7 @@ namespace Super_Juan_Bros_Final
                     hotSauce.Top -= 12;
                     hotSauce.Left = question.Left;
                 }
+                //timer for how long powerUp goes on for
                 tripleFireTime += 1;
                 if (tripleFireTime > 300)
                 {
@@ -1042,12 +1133,13 @@ namespace Super_Juan_Bros_Final
                 hotSauce.Top = question.Top;
 
             }
-
+            // once fireBall is shot time must be waited till you can shoot again
             if (noFire == true)
             {
                 recharge += 1;
                 flameCharge.Size = new Size(148 * recharge / 200, 27);
             }
+
             if (tripleFire == true)
             {
                 labelFire.Text = "TRIPLE FIRE";
@@ -1055,34 +1147,34 @@ namespace Super_Juan_Bros_Final
                 noFire = false;
                 if (fire == true)
                 {
-                    flameCharge.Size = new Size(148 * fireBall.Left / this.Width, 27);
+                    flameCharge.Size = new Size(148 * fireBall.Left / this.Width, 27);//fireBar
                 }
                 else { flameCharge.Size = new Size(148, 27); }
             }
             else
             {
-                if (recharge == 200)
+                if (recharge == 200)//fire is recharged and player can shoot
                 {
                     noFire = false;
                     labelFire.Text = "FIRE";
                     labelFire.Location = new Point(897, 13);
                 }
             }
-            if (fire == true)
+            if (fire == true)//fireBall is shot
             {
                 fireBall.Show();
                 fireBall.Left += speed * 2;
                 noFire = true;
                 labelFire.Text = "";
 
-                if (tripleFire == true)
+                if (tripleFire == true)//three fireBalls are shown
                 {
                     fireBall2.Show();
                     fireBall3.Show();
                     fireBall2.Left = fireBall.Left;
                     fireBall3.Left = fireBall.Left;
                 }
-                if (fireBall.Left > this.Width)
+                if (fireBall.Left > this.Width)//once it leaves the screen it resets 
                 {
                     fireBall.Left = player.Left;
                     fireBall2.Left = player.Left;
@@ -1100,34 +1192,39 @@ namespace Super_Juan_Bros_Final
                 fireBall2.Top = fireBall.Top - fireBall.Width;
                 fireBall3.Top = fireBall2.Top - fireBall2.Width;
             }
+
+            //if bottom of question mark powerUp box is hit
             if (invisible == false && player.Right > question.Left && player.Left < question.Right && player.Top - question.Bottom <= 20 && player.Top - question.Top > -20)
             {
-                //coin
-                if (powerUps <= 60)
+                //extra points
+                if (powerUps <= 60)//chance of getting this powerUp
                 {
                     points += 1000;
                     coinUp = true;
                     coinSound.Play();
                 }
-                else if (powerUps > 88 && powerUps <= 100)
+                else if (powerUps > 88 && powerUps <= 100)//hidden bricks powerUp
                 {
                     brickHide = true;
                     labelBrickHide.Text = "BRICK HIDE";
                 }
-                else if (powerUps <= 80 && powerUps > 60)
+                else if (powerUps <= 80 && powerUps > 60)//tripleFire powerUp
                 {
                     tripleFire = true;
                 }
-                else if (powerUps > 80 && powerUps <= 88)
+                else if (powerUps > 80 && powerUps <= 88)//extra life is earned
                 {
                     heartSound.Play();
                     extraHeart = true;
                 }
             }
         }
+        /// <summary>
+        /// sets physics for when player lands on a brick or the ground
+        /// </summary>
         public void landingBrick()
         {
-            if (player.Top >= ground.Top - player.Height)
+            if (player.Top >= ground.Top - player.Height)//if player is ground
             {
                 player.Top = ground.Top - player.Height;
                 force = 0;
@@ -1145,11 +1242,12 @@ namespace Super_Juan_Bros_Final
                     doubleJump = false;
                 }
             }
-            //falling off brick no jump
+            //falling off brick without jumping
             else if (onBrick == false && jump == false)
             {
                 jump = true;
                 player.Top += 12;
+                //sets jumping image for player while falling
                 if (luigi == false)
                 {
                     player.Image = Properties.Resources.mexicanJump;
@@ -1160,7 +1258,7 @@ namespace Super_Juan_Bros_Final
                 }
                 gifnotloaded = true;
             }
-            if (onBrick == true)
+            if (onBrick == true)//player can slide if it is on a brick
             {
                 if (sliding == true)
                 {
@@ -1169,6 +1267,9 @@ namespace Super_Juan_Bros_Final
                 }
             }
         }
+        /// <summary>
+        /// movement for all brick and pictureBoxes while game is playing
+        /// </summary>
         public void brickMovement()
         {
             brick.Left -= speed;
@@ -1181,17 +1282,22 @@ namespace Super_Juan_Bros_Final
             cactus2.Left -= speed;
             ground.Left -= speed;
         }
+        /// <summary>
+        /// sets what occurs when the hide powerUp is aquired
+        /// </summary>
+        /// <param name="x">all bricks/ pictureBoxes on screen</param>
         public void hidePowerUp(PictureBox x)
         {
             if (brickHide == true)
             {
+                //hides all bricks
                 x.Hide();
                 x.Top = this.Width;
                 brickHideBox.Show();
                 brickHideBack.Show();
-                brickHideBox.Size = new Size(148 - 180 * brickHideTime / 1000, 27);
+                brickHideBox.Size = new Size(148 - 180 * brickHideTime / 1000, 27);//powerUp timer bar
                 brickHideTime += 1;
-                if (brickHideTime > 800)
+                if (brickHideTime > 800)//sets how long the powerUp lasts
                 {
                     brickHide = false;
                     brickHideBox.Hide();
@@ -1206,4 +1312,4 @@ namespace Super_Juan_Bros_Final
         }
     }
 }
-  
+
