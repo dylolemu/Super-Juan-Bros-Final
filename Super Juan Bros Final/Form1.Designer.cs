@@ -71,6 +71,11 @@
             this.playerDead = new System.Windows.Forms.PictureBox();
             this.gameOverImage = new System.Windows.Forms.PictureBox();
             this.finalPoints = new System.Windows.Forms.Label();
+            this.resumeLabel = new System.Windows.Forms.Label();
+            this.greenLabel = new System.Windows.Forms.Label();
+            this.backLabel = new System.Windows.Forms.Label();
+            this.redLabel = new System.Windows.Forms.Label();
+            this.quitLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.selections)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.instructions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.selector)).BeginInit();
@@ -530,12 +535,72 @@
             this.finalPoints.TabIndex = 41;
             this.finalPoints.Text = "00000000";
             // 
+            // resumeLabel
+            // 
+            this.resumeLabel.AutoSize = true;
+            this.resumeLabel.Font = new System.Drawing.Font("Segoe Print", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.resumeLabel.ForeColor = System.Drawing.Color.Black;
+            this.resumeLabel.Location = new System.Drawing.Point(527, 432);
+            this.resumeLabel.Name = "resumeLabel";
+            this.resumeLabel.Size = new System.Drawing.Size(261, 37);
+            this.resumeLabel.TabIndex = 42;
+            this.resumeLabel.Text = "Press Green to Resume";
+            // 
+            // greenLabel
+            // 
+            this.greenLabel.AutoSize = true;
+            this.greenLabel.Font = new System.Drawing.Font("Segoe Print", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.greenLabel.ForeColor = System.Drawing.Color.Green;
+            this.greenLabel.Location = new System.Drawing.Point(589, 432);
+            this.greenLabel.Name = "greenLabel";
+            this.greenLabel.Size = new System.Drawing.Size(80, 37);
+            this.greenLabel.TabIndex = 43;
+            this.greenLabel.Text = "Green";
+            // 
+            // backLabel
+            // 
+            this.backLabel.AutoSize = true;
+            this.backLabel.Font = new System.Drawing.Font("Segoe Print", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.backLabel.ForeColor = System.Drawing.Color.Black;
+            this.backLabel.Location = new System.Drawing.Point(1019, 653);
+            this.backLabel.Name = "backLabel";
+            this.backLabel.Size = new System.Drawing.Size(142, 33);
+            this.backLabel.TabIndex = 44;
+            this.backLabel.Text = "Red for Back";
+            // 
+            // redLabel
+            // 
+            this.redLabel.AutoSize = true;
+            this.redLabel.Font = new System.Drawing.Font("Segoe Print", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.redLabel.ForeColor = System.Drawing.Color.Firebrick;
+            this.redLabel.Location = new System.Drawing.Point(1019, 653);
+            this.redLabel.Name = "redLabel";
+            this.redLabel.Size = new System.Drawing.Size(52, 33);
+            this.redLabel.TabIndex = 45;
+            this.redLabel.Text = "Red";
+            // 
+            // quitLabel
+            // 
+            this.quitLabel.AutoSize = true;
+            this.quitLabel.Font = new System.Drawing.Font("Segoe Print", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.quitLabel.ForeColor = System.Drawing.Color.Black;
+            this.quitLabel.Location = new System.Drawing.Point(543, 469);
+            this.quitLabel.Name = "quitLabel";
+            this.quitLabel.Size = new System.Drawing.Size(220, 37);
+            this.quitLabel.TabIndex = 46;
+            this.quitLabel.Text = "Press Black to Quit";
+            // 
             // superJuanBros
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Beige;
             this.ClientSize = new System.Drawing.Size(1234, 720);
+            this.Controls.Add(this.quitLabel);
+            this.Controls.Add(this.redLabel);
+            this.Controls.Add(this.backLabel);
+            this.Controls.Add(this.greenLabel);
+            this.Controls.Add(this.resumeLabel);
             this.Controls.Add(this.finalPoints);
             this.Controls.Add(this.gameOverImage);
             this.Controls.Add(this.playerDead);
@@ -664,6 +729,11 @@
         private System.Windows.Forms.PictureBox playerDead;
         private System.Windows.Forms.PictureBox gameOverImage;
         private System.Windows.Forms.Label finalPoints;
+        private System.Windows.Forms.Label resumeLabel;
+        private System.Windows.Forms.Label greenLabel;
+        private System.Windows.Forms.Label backLabel;
+        private System.Windows.Forms.Label redLabel;
+        private System.Windows.Forms.Label quitLabel;
     }
 }
 
